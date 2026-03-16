@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Gauss–Seidel Method · NMC</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body class="page-gauss">
+
+<nav class="navbar">
+  <a href="index.html" class="nav-brand">
+    <div class="nav-brand-icon">Σ</div>
+    <span class="nav-brand-text">Numerical Methods</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="gauss-seidel.html" class="active">Gauss–Seidel</a></li>
+    <li><a href="euler.html">Euler</a></li>
+    <li><a href="trapezoidal.html">Trapezoidal</a></li>
+    <li><a href="double-integral.html">Double Integral</a></li>
+  </ul>
+</nav>
+
+<div class="wrap">
+<div class="calc-page">
+
+  <a href="index.html" class="back-link">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    Back to Home
+  </a>
+
+  <div class="page-eyebrow">Linear Systems · Iterative Solver</div>
+  <h1 class="page-title">Gauss–Seidel Method</h1>
+  <p class="page-subtitle">Solves a 3×3 system with step-by-step working shown for each iteration — exactly as per textbook method.</p>
+
+  <div class="formula-card">
+    <span class="formula-label">Method</span>
+    <div class="formula-text">
+      x = (1/a₁₁) (b₁ − a₁₂y − a₁₃z) &nbsp;→&nbsp; updated first<br>
+      y = (1/a₂₂) (b₂ − a₂₁x − a₂₃z) &nbsp;→&nbsp; uses new x<br>
+      z = (1/a₃₃) (b₃ − a₃₁x − a₃₂y) &nbsp;→&nbsp; uses new x, y
+    </div>
+  </div>
+
+  <div class="form-panel">
+    <div class="panel-heading"><span class="picon">A</span> Enter the 3 Equations (must be diagonally dominant)</div>
+    <div class="eq-row">
+      <div class="eq-label">Equation 1 → a₁₁x + a₁₂y + a₁₃z = b₁</div>
+      <div class="form-row" style="grid-template-columns:1fr 1fr 1fr 1fr;gap:.85rem">
+        <div class="form-group"><label class="form-label">a₁₁ (coeff of x)</label><input class="form-input" type="number" id="a11" placeholder="e.g. 27" step="any"/></div>
+        <div class="form-group"><label class="form-label">a₁₂ (coeff of y)</label><input class="form-input" type="number" id="a12" placeholder="e.g. 6" step="any"/></div>
+        <div class="form-group"><label class="form-label">a₁₃ (coeff of z)</label><input class="form-input" type="number" id="a13" placeholder="e.g. -1" step="any"/></div>
+        <div class="form-group"><label class="form-label">b₁ (RHS)</label><input class="form-input" type="number" id="b1" placeholder="e.g. 85" step="any"/></div>
+      </div>
+    </div>
+    <div class="eq-row">
+      <div class="eq-label">Equation 2 → a₂₁x + a₂₂y + a₂₃z = b₂</div>
+      <div class="form-row" style="grid-template-columns:1fr 1fr 1fr 1fr;gap:.85rem">
+        <div class="form-group"><label class="form-label">a₂₁ (coeff of x)</label><input class="form-input" type="number" id="a21" placeholder="e.g. 6" step="any"/></div>
+        <div class="form-group"><label class="form-label">a₂₂ (coeff of y)</label><input class="form-input" type="number" id="a22" placeholder="e.g. 15" step="any"/></div>
+        <div class="form-group"><label class="form-label">a₂₃ (coeff of z)</label><input class="form-input" type="number" id="a23" placeholder="e.g. 2" step="any"/></div>
+        <div class="form-group"><label class="form-label">b₂ (RHS)</label><input class="form-input" type="number" id="b2" placeholder="e.g. 72" step="any"/></div>
+      </div>
+    </div>
+    <div class="eq-row" style="margin-bottom:0">
+      <div class="eq-label">Equation 3 → a₃₁x + a₃₂y + a₃₃z = b₃</div>
+      <div class="form-row" style="grid-template-columns:1fr 1fr 1fr 1fr;gap:.85rem">
+        <div class="form-group"><label class="form-label">a₃₁ (coeff of x)</label><input class="form-input" type="number" id="a31" placeholder="e.g. 1" step="any"/></div>
+        <div class="form-group"><label class="form-label">a₃₂ (coeff of y)</label><input class="form-input" type="number" id="a32" placeholder="e.g. 1" step="any"/></div>
+        <div class="form-group"><label class="form-label">a₃₃ (coeff of z)</label><input class="form-input" type="number" id="a33" placeholder="e.g. 54" step="any"/></div>
+        <div class="form-group"><label class="form-label">b₃ (RHS)</label><input class="form-input" type="number" id="b3" placeholder="e.g. 110" step="any"/></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-panel">
+    <div class="panel-heading"><span class="picon">x⁰</span> Initial Guesses (default: x=0, y=0, z=0)</div>
+    <div class="form-row cols-3">
+      <div class="form-group"><label class="form-label">x⁽⁰⁾</label><input class="form-input" type="number" id="x0" value="0" step="any"/></div>
+      <div class="form-group"><label class="form-label">y⁽⁰⁾</label><input class="form-input" type="number" id="y0" value="0" step="any"/></div>
+      <div class="form-group"><label class="form-label">z⁽⁰⁾</label><input class="form-input" type="number" id="z0" value="0" step="any"/></div>
+    </div>
+  </div>
+
+  <div class="error-banner" id="gs-error"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg><span></span></div>
+
+  <div class="btn-group">
+    <button class="btn-primary" onclick="GS.run()"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/></svg>Compute</button>
+    <button class="btn-secondary" onclick="GS.reset()">↺ Reset</button>
+    <button class="btn-secondary" onclick="GS.example()">Load Example (PDF)</button>
+  </div>
+
+  <div class="results-section" id="gs-results">
+    <div class="res-header" style="margin-top:1.5rem">
+      <span class="res-title">Solution</span>
+      <span class="res-badge" id="gs-conv-badge">Computed</span>
+    </div>
+
+    <div class="form-panel" style="margin-bottom:1.25rem">
+      <div class="panel-heading"><span class="picon">⇒</span> Iterative Formulas (derived from equations)</div>
+      <div class="gs-derived" id="gs-formulas"></div>
+    </div>
+
+    <div id="gs-steps"></div>
+
+    <div class="form-panel" style="margin-top:1.25rem">
+      <div class="panel-heading"><span class="picon">Σ</span> Summary Table</div>
+      <div class="table-wrapper"><table>
+        <thead><tr><th>Iteration</th><th>x</th><th>y</th><th>z</th></tr></thead>
+        <tbody id="gs-tbody"></tbody>
+      </table></div>
+    </div>
+
+    <div class="final-panel">
+      <div><div class="rb-label">x (Final)</div><div class="rb-value" id="gf1">—</div></div>
+      <div><div class="rb-label">y (Final)</div><div class="rb-value" id="gf2">—</div></div>
+      <div><div class="rb-label">z (Final)</div><div class="rb-value" id="gf3">—</div></div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<footer>Numerical Methods Calculator &nbsp;·&nbsp; Gauss–Seidel Method &nbsp;|&nbsp; <a href="index.html">Home</a></footer>
+
+<script src="script.js"></script>
+</body>
+</html>

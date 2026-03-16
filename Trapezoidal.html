@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Trapezoidal Rule · NMC</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body class="page-trap">
+
+<nav class="navbar">
+  <a href="index.html" class="nav-brand">
+    <div class="nav-brand-icon">Σ</div>
+    <span class="nav-brand-text">Numerical Methods</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="gauss-seidel.html">Gauss–Seidel</a></li>
+    <li><a href="euler.html">Euler</a></li>
+    <li><a href="trapezoidal.html" class="active">Trapezoidal</a></li>
+    <li><a href="double-integral.html">Double Integral</a></li>
+  </ul>
+</nav>
+
+<div class="wrap">
+<div class="calc-page">
+
+  <a href="index.html" class="back-link">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    Back to Home
+  </a>
+
+  <div class="page-eyebrow">Numerical Integration · Quadrature Rule</div>
+  <h1 class="page-title">Trapezoidal Rule</h1>
+  <p class="page-subtitle">Approximate ∫ f(x) dx over [a, b] by summing trapezoidal areas under the curve.</p>
+
+  <div class="formula-card" style="border-left-color:var(--rust)">
+    <span class="formula-label">Formula</span>
+    <div class="formula-text">
+      I ≈ (h/2) · [ f(x₀) + 2(f(x₁) + … + f(xₙ₋₁)) + f(xₙ) ]<br>
+      <span style="font-size:.77rem;color:#6b6358">where h = (b − a) / n</span>
+    </div>
+  </div>
+
+  <div class="form-panel">
+    <div class="panel-heading"><span class="picon">∫</span> Function &amp; Limits</div>
+    <div class="form-group" style="margin-bottom:1.1rem">
+      <label class="form-label">f(x) — the integrand</label>
+      <input class="form-input" type="text" id="trap-f" placeholder="e.g.  x^2   or   sin(x)   or   exp(x)"/>
+      <span class="form-hint">Supports: x, +, −, *, /, ^, sin, cos, tan, exp, ln, sqrt, abs, pi</span>
+    </div>
+    <div class="form-row cols-3">
+      <div class="form-group"><label class="form-label">a — lower limit</label><input class="form-input" type="number" id="trap-a" placeholder="0" step="any"/></div>
+      <div class="form-group"><label class="form-label">b — upper limit</label><input class="form-input" type="number" id="trap-b" placeholder="1" step="any"/></div>
+      <div class="form-group"><label class="form-label">n — intervals</label><input class="form-input" type="number" id="trap-n" value="4" min="1" max="2000"/><span class="form-hint">More → higher accuracy</span></div>
+    </div>
+  </div>
+
+  <div class="form-panel" style="padding:1.1rem 1.5rem">
+    <div class="panel-heading" style="margin-bottom:.65rem">Known Examples</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:.35rem">
+      <div style="font-family:'Source Code Pro',monospace;font-size:.77rem;color:var(--ink3)">∫₀¹ x² dx = <b style="color:var(--rust)">1/3≈0.3333</b>  → x^2, 0→1</div>
+      <div style="font-family:'Source Code Pro',monospace;font-size:.77rem;color:var(--ink3)">∫₀ᵖⁱ sin(x) dx = <b style="color:var(--rust)">2</b>  → sin(x), 0→pi</div>
+      <div style="font-family:'Source Code Pro',monospace;font-size:.77rem;color:var(--ink3)">∫₀¹ eˣ dx ≈ <b style="color:var(--rust)">1.7183</b>  → exp(x), 0→1</div>
+    </div>
+  </div>
+
+  <div class="error-banner" id="trap-error"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg><span></span></div>
+
+  <div class="btn-group">
+    <button class="btn-primary" style="background:var(--rust)" onclick="TR.run()"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/></svg>Compute</button>
+    <button class="btn-secondary" onclick="TR.reset()">↺ Reset</button>
+    <button class="btn-secondary" onclick="TR.example()">Load Example</button>
+  </div>
+
+  <div class="results-section" id="trap-results">
+    <div class="res-header">
+      <span class="res-title">Integration Table</span>
+      <span class="res-badge" style="color:var(--rust);border-color:rgba(184,74,42,.2);background:rgba(184,74,42,.08)">h = <span id="trap-h-disp">—</span></span>
+    </div>
+    <div class="table-wrapper"><table>
+      <thead><tr><th>i</th><th>xᵢ</th><th>f(xᵢ)</th><th>Coeff</th><th>Coeff × f(xᵢ)</th></tr></thead>
+      <tbody id="trap-tbody"></tbody>
+    </table></div>
+    <div class="final-panel">
+      <div><div class="rb-label">Approximate ∫f(x)dx</div><div class="rb-value" style="color:#f4b26a" id="trap-final">—</div></div>
+      <div><div class="rb-label">Formula</div><div class="rb-value sm">(h/2)[f₀+2Σfᵢ+fₙ]</div></div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<footer>Numerical Methods Calculator &nbsp;·&nbsp; Trapezoidal Rule &nbsp;|&nbsp; <a href="index.html">Home</a></footer>
+
+<script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Numerical Methods Calculator</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+<nav class="navbar">
+  <a href="index.html" class="nav-brand">
+    <div class="nav-brand-icon">Σ</div>
+    <span class="nav-brand-text">Numerical Methods</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html" class="active">Home</a></li>
+    <li><a href="gauss-seidel.html">Gauss–Seidel</a></li>
+    <li><a href="euler.html">Euler</a></li>
+    <li><a href="trapezoidal.html">Trapezoidal</a></li>
+    <li><a href="double-integral.html">Double Integral</a></li>
+  </ul>
+</nav>
+
+<div class="wrap">
+  <section class="home-hero">
+    <div class="hero-eyebrow">Academic Numerical Methods Tool</div>
+    <h1 class="hero-title">Numerical Methods<br><em>Calculator</em></h1>
+    <p class="hero-desc">Interactive calculators for four fundamental numerical techniques — solve linear systems, approximate ODEs, and compute single and double definite integrals.</p>
+    <div class="stats-bar">
+      <div class="stat-item"><div class="stat-num">4</div><div class="stat-label">Calculators</div></div>
+      <div class="stat-sep"></div>
+      <div class="stat-item"><div class="stat-num">3×3</div><div class="stat-label">Linear Systems</div></div>
+      <div class="stat-sep"></div>
+      <div class="stat-item"><div class="stat-num">∞</div><div class="stat-label">Expressions</div></div>
+      <div class="stat-sep"></div>
+      <div class="stat-item"><div class="stat-num">∬</div><div class="stat-label">Double Integrals</div></div>
+    </div>
+  </section>
+
+  <div class="section-divider">
+    <div class="sdl"></div><span class="sdlabel">Select a Calculator</span><div class="sdl"></div>
+  </div>
+
+  <div class="cards-grid">
+    <article class="calc-card" onclick="location.href='Gauss seidel.html'">
+      <div class="card-num">01</div>
+      <div class="card-tag">Linear Systems · Iterative Solver</div>
+      <h2 class="card-title">Gauss–Seidel Method</h2>
+      <p class="card-desc">Solves a 3×3 system of linear equations iteratively. Each variable is updated immediately using the most recent values for faster convergence.</p>
+      <div class="card-formula-chip">xᵢ⁽ʲ⁺¹⁾ = (1/aᵢᵢ) [bᵢ − Σ aᵢₖxₖ]</div>
+      <a href="Gauss seidel.html" class="btn-card" onclick="event.stopPropagation()">Open Calculator <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+    </article>
+
+    <article class="calc-card" onclick="location.href='Euler.html'">
+      <div class="card-num">02</div>
+      <div class="card-tag">Differential Equations · ODE Solver</div>
+      <h2 class="card-title">Euler Method</h2>
+      <p class="card-desc">Numerically approximates solutions to first-order ODEs using forward Euler stepping. Enter any f(x,y) and observe step-by-step progression.</p>
+      <div class="card-formula-chip">yₙ₊₁ = yₙ + h · f(xₙ, yₙ)</div>
+      <a href="euler.html" class="btn-card" onclick="event.stopPropagation()">Open Calculator <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+    </article>
+
+    <article class="calc-card" onclick="location.href='Trapezoidal.html'">
+      <div class="card-num">03</div>
+      <div class="card-tag">Numerical Integration · Quadrature</div>
+      <h2 class="card-title">Trapezoidal Rule</h2>
+      <p class="card-desc">Approximates definite integrals by subdividing the area under a curve into trapezoids. Works with any continuous function over [a, b].</p>
+      <div class="card-formula-chip">I ≈ (h/2) [f(x₀) + 2Σf(xᵢ) + f(xₙ)]</div>
+      <a href="trapezoidal.html" class="btn-card" onclick="event.stopPropagation()">Open Calculator <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+    </article>
+
+    <article class="calc-card" onclick="location.href='double-integral.html'">
+      <div class="card-num">04</div>
+      <div class="card-tag">Double Integration · 2D Quadrature</div>
+      <h2 class="card-title">Double Integral Trapezoidal</h2>
+      <p class="card-desc">Approximates double integrals ∬f(x,y) dA over [a,b]×[c,d] using repeated trapezoidal rules across both dimensions.</p>
+      <div class="card-formula-chip">∬f(x,y) ≈ hₓ·hᵧ · Σᵢⱼ wᵢⱼ·f(xᵢ,yⱼ)</div>
+      <a href="double-integral.html" class="btn-card" onclick="event.stopPropagation()">Open Calculator <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+    </article>
+  </div>
+</div>
+
+<footer>Numerical Methods Calculator &nbsp;·&nbsp; HTML · CSS · JavaScript</footer>
+
+</body>
+</html>
